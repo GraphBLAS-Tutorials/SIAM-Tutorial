@@ -27,5 +27,7 @@ dependencies:
     - imageio
     - imageio-ffmpeg
     - pygifsicle
+    - rise
+
 
 
