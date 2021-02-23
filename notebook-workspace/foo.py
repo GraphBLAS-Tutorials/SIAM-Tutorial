@@ -1,3 +1,5 @@
 
+import pygraphblas as grb
+
 def foo():
-    return 1
+    return grb.Matrix.dense(grb.BOOL, 3, 3)
