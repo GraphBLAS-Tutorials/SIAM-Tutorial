@@ -1,35 +1,18 @@
 import pygraphblas as grb
 
 #==========================================================================
-def bfs(graph, src_node):
+def neighborhood(graph, src, num_hops):
     num_nodes = graph.nrows
-    w = grb.Vector.sparse(grb.types.BOOL, num_nodes) #wavefront
-    v = grb.Vector.sparse(grb.types.BOOL, num_nodes) #visited
-    w[src_node] = True
+    w = grb.Vector.sparse(grb.types.BOOL, num_nodes)
+    v = grb.Vector.sparse(grb.types.BOOL, num_nodes)
+    w[src] = True
 
     with grb.BOOL.LOR_LAND:
-        while w.nvals > 0:
+        for it in range(num_hops):
             v.assign_scalar(True, mask=w)
             w.vxm(graph, mask=v, out=w, desc=grb.descriptor.RC)
 
     return v
-
-#==========================================================================
-def connected_components(graph):
-    num_nodes  = graph.nrows
-    cc_ids     = grb.Vector.sparse(grb.types.UINT64, num_nodes)
-    curr_cc_id = 0
-
-    for src_node in range(num_nodes):
-        if cc_ids.get(src_node) == None:
-            # traverse from src_node marking all reachable nodes
-            visited = bfs(graph, src_node)
-
-            #cc_ids[visited] = curr_cc_id
-            cc_ids.assign_scalar(curr_cc_id, mask=visited)
-            curr_cc_id += 1
-
-    return curr_cc_id, cc_ids
 
 #==========================================================================
 def pagerank(A, damping = 0.85, itermax = 100):
