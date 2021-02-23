@@ -11,9 +11,10 @@ To run the docker container that starts the notebook server, run the following:
 It will output something like this:
 
 ```
+    ...
     Or copy and paste one of these URLs:
         http://5303f0affe22:8888/?token=<long hash>
-     or http://127.0.0.1:8888/?token=<long hash
+     or http://127.0.0.1:8888/?token=<long hash>
 
 ```
 
