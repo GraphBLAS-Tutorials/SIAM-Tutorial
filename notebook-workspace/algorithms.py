@@ -6,11 +6,12 @@ def neighborhood(graph, src, num_hops):
     w = grb.Vector.sparse(grb.types.BOOL, num_nodes)
     v = grb.Vector.sparse(grb.types.BOOL, num_nodes)
     w[src] = True
+    v.assign_scalar(True, mask=w)
 
     with grb.BOOL.LOR_LAND:
         for it in range(num_hops):
-            v.assign_scalar(True, mask=w)
             w.vxm(graph, mask=v, out=w, desc=grb.descriptor.RC)
+            v.assign_scalar(True, mask=w)
 
     return v
 
